@@ -85,5 +85,3 @@ To configure the environment variables required for this project, follow these s
    MONGODB_URI=mongodb://localhost:27017/mydatabase
    SECRET_KEY=mysecretkey
    ```
-
-# car-rental-reservation-system
