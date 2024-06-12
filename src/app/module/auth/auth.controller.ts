@@ -1,7 +1,9 @@
 import httpStatus from 'http-status';
+import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { UserServices } from '../user/user.service';
+import { AuthServices } from './auth.service';
 
 /**
  * Controller to handle user signup requests.
@@ -24,6 +26,25 @@ const signupUser = catchAsync(async (req, res) => {
   });
 });
 
-export const AuthServices = {
+const loginUser = catchAsync(async (req, res) => {
+  const result = await AuthServices.loginUser(req.body);
+  const { refreshToken, accessToken, data } = result;
+
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is logged in succesfully!',
+    data,
+    token: accessToken,
+  });
+});
+
+export const AuthControllers = {
   signupUser,
+  loginUser,
 };

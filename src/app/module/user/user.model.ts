@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import { model, Schema } from 'mongoose';
 import config from '../../config';
-import { TUser } from './user.interface';
+import { TUser, UserModel } from './user.interface';
 
 // Define the user schema
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     // User's name
     name: {
@@ -33,6 +33,7 @@ const userSchema = new Schema<TUser>(
     password: {
       type: String,
       required: [true, 'Password is required.'],
+      select: 0,
     },
     // User's address
     address: {
@@ -68,6 +69,22 @@ userSchema.pre('save', async function (next) {
   }
 });
 
-const User = model<TUser>('User', userSchema);
+// set '' after saving password
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
+};
+
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+const User = model<TUser, UserModel>('User', userSchema);
 
 export default User;
