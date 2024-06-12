@@ -1,87 +1,142 @@
-# Project Description
+# Car Rental Business Web App
 
-Imagine you own a car rental business. To keep track of your cars and manage customer rentals, you've decided to built a web app with a database designed based on the following models:
+## Overview
 
-- **_User Model_**
-- **_Car Model_**
-- **_Booking Model_**
-
-With these models as the foundation, you can build a powerful web app for your car rental business. This app will allow both admins and users to interact smoothly with the booking system:
-
-Both users and administrators need to register and log in to the car rental web app before performing any actions. This ensures a secure and controlled environment for managing rentals.
-
-**_Admin Actions:_**
-
-**_Car Management:_** Admins can create new car entries in the system, specifying details like name, color, features, etc. They can also update existing car information to keep things accurate. Additionally, admins can perform "soft deletes" on cars that are no longer available for rent. This keeps a record of the car but removes it from active listings.
-
-**_Booking Oversight:_** Admins have a comprehensive view of all ongoing and past bookings within the system. This allows them to monitor rental activity and identify any potential issues.
-
-**_Ride Cost Calculation:_** For completed rentals (where the end time has been entered by admin), admins can calculate the total cost using startTime , endTime and pricePerHour to ensure accurate billing.
-
-**_User’s Actions:_**
-
-**_Book a Ride:_** Users can select their pick-up entering carId and startTime to book the perfect car for their needs.
-
-**_Rental History:_** They can easily access their booking history, allowing them to review past rentals.
+This web app is designed to manage a car rental business, allowing both admins and users to interact smoothly with the booking system. The app provides features for car management, booking rides, and viewing rental history.
 
 ## Features
 
-- **TypeScript**: Utilizes TypeScript for type safety and improved developer experience.
-- **Express**: Implements a RESTful API server using the Express framework for Node.js.
-- **Mongoose**: Integrates MongoDB interactions through Mongoose, providing a robust ODM (Object Data Modeling) solution.
-- **Development Tools**:
-  - **ts-node-dev**: Facilitates automatic restarting of the server on file changes during development.
-  - **eslint**: Configured with TypeScript support for code linting.
-  - **prettier**: Used for code formatting to maintain consistent style across the project.
-- **Scripts**:
-  - `start:dev`: Runs the server in development mode with automatic restarts upon file changes.
-  - `start:prod`: Executes the compiled server file in production mode.
-  - `build`: Compiles TypeScript code into JavaScript output for deployment.
-  - `lint`: Lints TypeScript files using ESLint with configured rules.
-  - `lint:fix`: Automatically fixes ESLint linting issues where possible.
-  - `prettier`: Formats TypeScript, JavaScript, and JSON files based on defined Prettier rules.
-  - `prettier:fix`: Automatically formats project files using Prettier.
-  - `test`: Placeholder script for running tests (currently echoes an error as no tests are specified).
+### Admin Actions
 
-## Installation
+- **Car Management**: Create, update, and soft delete car entries.
+- **Booking Oversight**: View all ongoing and past bookings.
+- **Ride Cost Calculation**: Calculate the total cost for completed rentals.
 
-1. **Clone Repository**:
+### User Actions
 
-   ```bash
-   git clone https://github.com/iqbal-dev/car-rental-reservation-system.git
-   cd car-rental-reservation-system
+- **Book a Ride**: Select a car and book it by entering the pick-up time.
+- **Rental History**: View past bookings.
 
-   ```
+## Models
 
-1. **Install Dependencies:**
-   ```bash
-   npm install
-   or
-   yarn install
-   ```
+### User Model
 
-## Configuration
+- `id` (integer, primary key)
+- `username` (string, unique, required)
+- `email` (string, unique, required)
+- `password` (string, required)
+- `role` (string, either 'admin' or 'user', required)
 
-### Environment Variables
+### Car Model
 
-To configure the environment variables required for this project, follow these steps:
+- `id` (integer, primary key)
+- `name` (string, required)
+- `color` (string, required)
+- `features` (string, optional)
+- `pricePerHour` (decimal, required)
+- `isAvailable` (boolean, default true)
+- `createdAt` (datetime, auto-generated)
+- `updatedAt` (datetime, auto-generated)
+- `isDeleted` (boolean, default false)
 
-1. **Create a `.env` File:**
+### Booking Model
 
-   Start by creating a new file named `.env` in the root directory of your project.
+- `id` (integer, primary key)
+- `carId` (foreign key to Car Model, required)
+- `userId` (foreign key to User Model, required)
+- `startTime` (datetime, required)
+- `endTime` (datetime, optional)
+- `totalCost` (decimal, optional, calculated)
 
-2. **Copy from `.env.example`:**
+## Setup
 
-   Copy the contents from the `.env.example` file into your newly created `.env` file.
+1. **Clone the Repository**
 
-3. **Configure Variables:**
+    ```bash
+    git clone https://github.com/iqbal-dev/car-rental-reservation-system.git
+    cd car-rental-reservation-system
+    ```
 
-   Modify the values of the variables in the `.env` file according to your environment and project requirements. Ensure that you provide values for all the required variables specified in the `.env.example` file.
+2. **Configure Environment Variables**
 
-   Here's an example of what the `.env` file might look like:
+    To configure the environment variables required for this project, follow these steps:
 
-   ```plaintext
-   PORT=3000
-   MONGODB_URI=mongodb://localhost:27017/mydatabase
-   SECRET_KEY=mysecretkey
-   ```
+    1. **Create a `.env` File:**
+
+        Start by creating a new file named `.env` in the root directory of your project.
+
+    2. **Copy from `.env.example`:**
+
+        Copy the contents from the `.env.example` file into your newly created `.env` file.
+
+    3. **Configure Variables:**
+
+        Modify the values of the variables in the `.env` file according to your environment and project requirements. Ensure that you provide values for all the required variables specified in the `.env.example` file.
+
+        Here's an example of what the `.env` file might look like:
+
+        ```plaintext
+        PORT=3000
+        MONGODB_URI=mongodb://localhost:27017/mydatabase
+        SECRET_KEY=mysecretkey
+        ```
+
+3. **Install Dependencies**
+
+    For a Node.js app, you might run:
+
+    ```bash
+    npm install
+    # or
+    yarn add
+    ```
+
+4. **Setup Database**
+
+    Create a database and update the configuration in your project settings.
+
+5. **Start the Server**
+
+    For Node.js:
+
+    ```bash
+    npm start
+    # or
+    yarn start
+    ```
+
+## API Endpoints
+
+### Authentication
+
+- `POST /register`: Register a new user or admin.
+- `POST /login`: Log in a user or admin.
+
+### Admin Routes
+
+- `POST /cars`: Create a new car.
+- `PUT /cars/:id`: Update an existing car.
+- `DELETE /cars/:id`: Soft delete a car.
+- `GET /bookings`: View all bookings.
+- `POST /bookings/:id/calculate-cost`: Calculate the cost of a completed booking.
+
+### User Routes
+
+- `POST /bookings`: Book a car.
+- `GET /users/:id/bookings`: View a user's booking history.
+
+## Additional Considerations
+
+- **Security**: Ensure validation and sanitization of inputs, use HTTPS, and securely store passwords.
+- **Performance**: Optimize database queries and consider caching frequently accessed data.
+- **Scalability**: Design the system to handle increasing loads by using microservices, load balancing, and database optimization.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Inspiration and guidelines based on standard practices for web app development.
