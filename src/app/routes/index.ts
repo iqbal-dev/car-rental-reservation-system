@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { AuthRouter } from '../module/auth/auth.router';
-import { CarRouter } from '../module/car/car.controller';
+import { CarRouter } from '../module/car/car.route';
 
 const router = Router();
 

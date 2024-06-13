@@ -1,23 +1,24 @@
-import express from 'express';
-import auth from '../../middleware/auth';
-import { USER_ROLE } from '../user/user.constant';
-
-const router = express.Router();
-
-router.get('/', auth(USER_ROLE.admin), (req, res) => {
-  res.send('Hello World');
+import httpStatus from 'http-status';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { CarServices } from './car.service';
+/**
+ * Controller to create a new car using car create service
+ */
+const createCar = catchAsync(async (req, res) => {
+  //extract payload from request body
+  const payload = req.body;
+  //create a new car in the database using the extracted payload
+  const result = await CarServices.createCarIntoDB(payload);
+  //send a response back to the client indicating that the car was created successfully
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    message: 'Car was created successfully',
+    success: true,
+    data: result,
+  });
 });
 
-router.post('/', (req, res) => {
-  res.send('Hello World');
-});
-
-router.put('/', (req, res) => {
-  res.send('Hello World');
-});
-
-router.delete('/', (req, res) => {
-  res.send('Hello World');
-});
-
-export const CarRouter = router;
+export const CarControllers = {
+  createCar,
+};
