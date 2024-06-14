@@ -35,12 +35,15 @@ const getAllCar = catchAsync(async (req, res) => {
   //send a response back to the
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: 'Car was retrieve successfully',
+    message: 'Car retrieve successfully',
     success: true,
     data: result,
   });
 });
 
+/**
+ * Controller to get car data by ID from the database.
+ */
 const getCar = catchAsync(async (req, res) => {
   // extract ID from request params
   const { id } = req.params;
@@ -49,7 +52,44 @@ const getCar = catchAsync(async (req, res) => {
   //send a response back to the
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: 'Car was retrieve successfully',
+    message: 'A Car retrieve successfully',
+    success: true,
+    data: result,
+  });
+});
+
+/**
+ * Controller to update the car data
+ */
+
+const updateCar = catchAsync(async (req, res) => {
+  // extract ID from request params
+  const { id } = req.params;
+  // extract payload from request body
+  const payload = req.body;
+  // update car in the database using service
+  const result = await CarServices.updateCarIntoDB(id, payload);
+  //send a response back to the
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Car updated successfully',
+    success: true,
+    data: result,
+  });
+});
+/**
+ * Controller to delete the car data
+ */
+
+const deleteCar = catchAsync(async (req, res) => {
+  // extract ID from request params
+  const { id } = req.params;
+  // update car in the database using service
+  const result = await CarServices.deleteCarIntoDB(id);
+  //send a response back to the
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Car deleted successfully',
     success: true,
     data: result,
   });
@@ -59,4 +99,6 @@ export const CarControllers = {
   createCar,
   getAllCar,
   getCar,
+  updateCar,
+  deleteCar,
 };

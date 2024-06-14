@@ -49,8 +49,44 @@ const getCarFromDB = async (id: string) => {
   return result;
 };
 
+/**
+ * Service to update data into database
+ * @param id - The id of the car to update data
+ * @param payload - The data to be updated
+ * @returns updated data
+ */
+const updateCarIntoDB = async (id: string, payload: Partial<TCar>) => {
+  const { features, ...remainingCarData } = payload;
+  const result = await Car.findByIdAndUpdate(
+    id,
+    {
+      ...remainingCarData,
+      $addToSet: { features: { $each: features } },
+    },
+    { upsert: true, new: true, runValidators: true },
+  );
+
+  return result;
+};
+const deleteCarIntoDB = async (id: string) => {
+  const result = await Car.findOneAndUpdate(
+    { _id: id, isDeleted: false },
+    {
+      isDeleted: true,
+    },
+    { new: true, runValidators: true },
+  );
+  if (!result) {
+    throw new AppError(404, 'Car not found');
+  }
+
+  return result;
+};
+
 export const CarServices = {
   createCarIntoDB,
   getAllCarFromDB,
   getCarFromDB,
+  updateCarIntoDB,
+  deleteCarIntoDB,
 };

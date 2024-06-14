@@ -61,6 +61,11 @@ const carSchema = new Schema<TCar>(
   },
 );
 
+carSchema.pre('save', function (next) {
+  this.features = [...new Set(this.features)]; // Remove duplicates from the array
+  next();
+});
+
 carSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();

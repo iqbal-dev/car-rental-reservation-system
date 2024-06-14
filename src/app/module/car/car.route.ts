@@ -16,6 +16,14 @@ router
   )
   .get(CarControllers.getAllCar);
 
-router.route('/:id').get(CarControllers.getCar);
+router
+  .route('/:id')
+  .get(CarControllers.getCar)
+  .put(
+    auth(USER_ROLE.admin),
+    validateRequest(CarValidation.updateCarValidationSchema),
+    CarControllers.updateCar,
+  )
+  .delete(auth(USER_ROLE.admin), CarControllers.deleteCar);
 
 export const CarRouter = router;

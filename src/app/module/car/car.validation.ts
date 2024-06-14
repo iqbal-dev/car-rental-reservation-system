@@ -28,6 +28,26 @@ const createCarValidationSchema = z.object({
   }),
 });
 
+const updateCarValidationSchema = z.object({
+  body: z.object({
+    // Name of the car
+    name: z.string().optional(),
+    // Description of the car
+    description: z.string().optional(),
+    // Color of the car
+    color: z.string().optional(),
+    // Indicates if the car is electric
+    isElectric: z.boolean().optional(),
+    // Features of the car (array of strings)
+    features: z
+      .array(z.enum([...CAR_FEATURES] as [string, ...string[]]))
+      .optional(),
+    // Rental price per hour
+    pricePerHour: z.number().optional(),
+  }),
+});
+
 export const CarValidation = {
   createCarValidationSchema,
+  updateCarValidationSchema,
 };
