@@ -76,9 +76,6 @@ userSchema.post('save', function (doc, next) {
 });
 
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
-  console.log('====================================');
-  console.log(email);
-  console.log('====================================');
   return await User.findOne({ email }).select('+password');
 };
 

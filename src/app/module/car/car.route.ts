@@ -13,6 +13,7 @@ router
     auth(USER_ROLE.admin),
     validateRequest(CarValidation.createCarValidationSchema),
     CarControllers.createCar,
-  );
+  )
+  .get(CarControllers.getAllCar);
 
 export const CarRouter = router;

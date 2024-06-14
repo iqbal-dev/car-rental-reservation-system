@@ -5,8 +5,6 @@ import User from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import { createToken } from './auth.utils';
 const loginUser = async (payload: TLoginUser) => {
-  console.log(payload);
-
   // Checking if the user exists by their custom ID
   const user = await User.isUserExistsByEmail(payload.email);
 
