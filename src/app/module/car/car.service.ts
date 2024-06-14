@@ -1,4 +1,5 @@
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
 import { carSearchAbleField } from './car.constant';
 import { TCar } from './car.interface';
 import Car from './car.model';
@@ -38,7 +39,12 @@ const getAllCarFromDB = async (query: Record<string, unknown>) => {
  * @returns All the cars from the database
  */
 const getCarFromDB = async (id: string) => {
+  // Get  car from the database by id.
   const result = await Car.findById(id);
+  // check if the result is found or not, if not found then throw error
+  if (!result) {
+    throw new AppError(404, 'Car not found');
+  }
   // return the result
   return result;
 };
@@ -46,4 +52,5 @@ const getCarFromDB = async (id: string) => {
 export const CarServices = {
   createCarIntoDB,
   getAllCarFromDB,
+  getCarFromDB,
 };

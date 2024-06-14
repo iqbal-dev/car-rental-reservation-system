@@ -80,12 +80,10 @@ class ErrorHandler {
   private handleCastError(err: mongoose.Error.CastError) {
     this.statusCode = 400; // Bad Request
     this.message = `Invalid ${err.path}: ${err.value}`;
-    this.errorSources = [
-      {
-        path: err.path,
-        message: `Invalid ${err.path}: ${err.value}`,
-      },
-    ];
+    this.errorSources = {
+      path: err.path,
+      message: `Invalid ${err.path}: ${err.value}`,
+    };
   }
 
   /**
@@ -96,12 +94,10 @@ class ErrorHandler {
     this.statusCode = 409; // Conflict
     const field = Object.keys(err.keyValue)[0];
     this.message = `Duplicate field value: ${field}. Please use another value!`;
-    this.errorSources = [
-      {
-        path: field,
-        message: `Duplicate field value: ${field}. Please use another value!`,
-      },
-    ];
+    this.errorSources = {
+      path: field,
+      message: `Duplicate field value: ${field}. Please use another value!`,
+    };
   }
 
   /**
@@ -111,12 +107,10 @@ class ErrorHandler {
   private handleAppError(err: AppError) {
     this.statusCode = err.statusCode;
     this.message = err.message;
-    this.errorSources = [
-      {
-        path: err?.path || '',
-        message: err.message,
-      },
-    ];
+    this.errorSources = {
+      path: err?.path || '',
+      message: err.message,
+    };
   }
 
   /**
@@ -125,12 +119,10 @@ class ErrorHandler {
    */
   private handleGenericError(err: Error) {
     this.message = err.message;
-    this.errorSources = [
-      {
-        path: '',
-        message: err.message,
-      },
-    ];
+    this.errorSources = {
+      path: '',
+      message: err.message,
+    };
   }
 
   /**

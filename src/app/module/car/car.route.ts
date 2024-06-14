@@ -16,4 +16,6 @@ router
   )
   .get(CarControllers.getAllCar);
 
+router.route('/:id').get(CarControllers.getCar);
+
 export const CarRouter = router;
