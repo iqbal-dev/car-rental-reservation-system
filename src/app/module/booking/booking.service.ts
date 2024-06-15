@@ -36,7 +36,7 @@ const createBookingIntoDB = async (email: string, payload: TBooking) => {
   //Create new booking
   const result = await Booking.create({
     ...payload,
-    userId: isUserExistsByEmail._id,
+    user: isUserExistsByEmail._id,
   });
   return result;
 };

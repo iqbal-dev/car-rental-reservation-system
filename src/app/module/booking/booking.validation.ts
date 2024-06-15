@@ -14,7 +14,7 @@ const timeStringSchema = z.string().refine(
 const createBookingSchema = z.object({
   body: z.object({
     date: z.string(),
-    car: z.string(),
+    carId: z.string(),
     startTime: timeStringSchema,
   }),
 });

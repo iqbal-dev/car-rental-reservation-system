@@ -10,7 +10,10 @@ const createBooking = catchAsync(async (req, res) => {
   //extract payload from request body;
   const payload = req.body;
   //Using service create new booking;
-  const result = await BookingServices.createBookingIntoDB(email, payload);
+  const result = await BookingServices.createBookingIntoDB(email, {
+    ...payload,
+    car: payload.carId,
+  });
   //send response to client;
   sendResponse(res, {
     message: 'Create booking successfully',
