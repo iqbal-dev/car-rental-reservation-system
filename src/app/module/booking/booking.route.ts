@@ -24,5 +24,6 @@ router.get(
   auth(USER_ROLE.user),
   BookingControllers.getAllBookingsByUser,
 );
+router.put('/return', BookingControllers.updateBookingTimeAndPrice);
 
 export const BookingRoute = router;

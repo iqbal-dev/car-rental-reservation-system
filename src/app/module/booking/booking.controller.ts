@@ -52,9 +52,25 @@ const getAllBookingsByUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateBookingTimeAndPrice = catchAsync(async (req, res) => {
+  const { endTime, bookingId } = req.body;
+
+  const result = await BookingServices.updateBookingTimeAndPriceIntoDB(
+    bookingId,
+    endTime,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Booking updated successfully',
+    data: result,
+  });
+});
 
 export const BookingControllers = {
   createBooking,
   getAllBookings,
   getAllBookingsByUser,
+  updateBookingTimeAndPrice,
 };

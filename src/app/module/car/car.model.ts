@@ -40,6 +40,7 @@ const carSchema = new Schema<TCar>(
     // Rental price per hour
     pricePerHour: {
       type: Number,
+      default: 0,
       required: [true, 'Price per hour is required.'], // pricePerHour is a required field
     },
     // Soft delete flag

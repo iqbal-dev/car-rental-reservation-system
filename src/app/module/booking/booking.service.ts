@@ -5,6 +5,7 @@ import Car from '../car/car.model';
 import User from '../user/user.model';
 import { TBooking } from './booking.interface';
 import Booking from './booking.model';
+import { calculateTimeDifferenceInHours } from './booking.utils';
 
 /**
  * Service to create bookings
@@ -68,8 +69,40 @@ const getAllBookingBYUserFromDB = async (email: string) => {
   return result;
 };
 
+const updateBookingTimeAndPriceIntoDB = async (id: string, endTime: string) => {
+  const isExistBooking = await Booking.findOne({ _id: id });
+  if (!isExistBooking) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Booking not found');
+  }
+
+  if (!isExistBooking.endTime) {
+    throw new AppError(httpStatus.CONFLICT, 'This booking is already end');
+  }
+
+  const getCarByCarId = await Car.findById(isExistBooking.car);
+  if (!getCarByCarId) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Booking car is not found');
+  }
+
+  const diff = calculateTimeDifferenceInHours(
+    isExistBooking.startTime,
+    endTime,
+  );
+
+  const totalCost = Math.round(diff * getCarByCarId.pricePerHour);
+
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { endTime: endTime, totalCost },
+    { new: true, runValidators: true },
+  );
+
+  return result;
+};
+
 export const BookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
   getAllBookingBYUserFromDB,
+  updateBookingTimeAndPriceIntoDB,
 };
