@@ -75,7 +75,7 @@ const updateBookingTimeAndPriceIntoDB = async (id: string, endTime: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'Booking not found');
   }
 
-  if (!isExistBooking.endTime) {
+  if (isExistBooking.endTime) {
     throw new AppError(httpStatus.CONFLICT, 'This booking is already end');
   }
 

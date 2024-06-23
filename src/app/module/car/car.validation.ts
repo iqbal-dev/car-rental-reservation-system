@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { CAR_FEATURES } from './car.constant';
 
 const createCarValidationSchema = z.object({
   body: z.object({
@@ -20,7 +19,7 @@ const createCarValidationSchema = z.object({
       required_error: 'Electric is required.',
     }),
     // Features of the car (array of strings)
-    features: z.array(z.enum([...CAR_FEATURES] as [string, ...string[]])),
+    features: z.array(z.string()),
     // Rental price per hour
     pricePerHour: z.number({
       required_error: 'Price per hour is required.',
@@ -39,9 +38,7 @@ const updateCarValidationSchema = z.object({
     // Indicates if the car is electric
     isElectric: z.boolean().optional(),
     // Features of the car (array of strings)
-    features: z
-      .array(z.enum([...CAR_FEATURES] as [string, ...string[]]))
-      .optional(),
+    features: z.array(z.string()).optional(),
     // Rental price per hour
     pricePerHour: z.number().optional(),
   }),

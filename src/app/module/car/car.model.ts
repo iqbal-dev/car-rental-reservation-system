@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-import { CAR_FEATURES } from './car.constant';
 import { TCar } from './car.interface';
 
 // Define the schema for the car collection
@@ -34,7 +33,6 @@ const carSchema = new Schema<TCar>(
     // Features of the car (array of strings)
     features: {
       type: [String],
-      enum: CAR_FEATURES,
       required: [true, 'Features is required.'], // Features is a required field
     },
     // Rental price per hour

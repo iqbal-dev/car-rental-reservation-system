@@ -19,6 +19,7 @@ const loginUser = async (payload: TLoginUser) => {
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
   }
 
+  user.password = '';
   // Creating JWT payload with user's ID and role
   const jwtPayload = {
     email: user.email,
@@ -38,7 +39,9 @@ const loginUser = async (payload: TLoginUser) => {
     config.jwt_refresh_secret,
     config.jwt_refresh_expires_in,
   );
+
   // Returning the generated access and refresh tokens to the client
+
   return {
     refreshToken,
     accessToken,

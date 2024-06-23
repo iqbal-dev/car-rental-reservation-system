@@ -34,7 +34,7 @@ bookingSChema.statics.isCarBooked = async function (
   carId: string,
 ): Promise<boolean> {
   const booking = await this.findOne({
-    carId,
+    car: carId,
     endTime: { $exists: true, $eq: null },
   }).exec();
   return !!booking;
