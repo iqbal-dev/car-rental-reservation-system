@@ -89,6 +89,13 @@ const updateBookingTimeAndPriceIntoDB = async (id: string, endTime: string) => {
     endTime,
   );
 
+  if (diff < 0) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      'Return time difference must be greater than zero',
+    );
+  }
+
   const totalCost = Math.round(diff * getCarByCarId.pricePerHour);
 
   const result = await Booking.findByIdAndUpdate(
