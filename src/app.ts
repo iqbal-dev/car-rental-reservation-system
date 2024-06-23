@@ -18,7 +18,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Route for API endpoints
-app.use('/api/v1', router);
+app.use('/api', router);
 app.use(globalErrorHandler);
 
 //Not Found
