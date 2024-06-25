@@ -118,18 +118,12 @@ This app is designed to manage a car rental business, allowing both admins and u
 - `PUT /cars/:id`: Update an existing car.
 - `DELETE /cars/:id`: Soft delete a car.
 - `GET /bookings`: View all bookings.
-- `POST /bookings/:id/calculate-cost`: Calculate the cost of a completed booking.
+- `POST /bookings/return`: Calculate the cost of a completed booking.
 
 ### User Routes
 
 - `POST /bookings`: Book a car.
-- `GET /users/:id/bookings`: View a user's booking history.
-
-## Additional Considerations
-
-- **Security**: Ensure validation and sanitization of inputs, use HTTPS, and securely store passwords.
-- **Performance**: Optimize database queries and consider caching frequently accessed data.
-- **Scalability**: Design the system to handle increasing loads by using microservices, load balancing, and database optimization.
+- `GET /bookings/my-bookings`: View a user's booking history.
 
 ---
 
