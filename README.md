@@ -2,7 +2,7 @@
 
 ## Overview
 
-This web app is designed to manage a car rental business, allowing both admins and users to interact smoothly with the booking system. The app provides features for car management, booking rides, and viewing rental history.
+This app is designed to manage a car rental business, allowing both admins and users to interact smoothly with the booking system. The app provides features for car management, booking rides, and viewing rental history.
 
 ## Features
 
