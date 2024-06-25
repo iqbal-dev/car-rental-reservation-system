@@ -34,7 +34,6 @@ This app is designed to manage a car rental business, allowing both admins and u
 - `color` (string, required)
 - `features` (string, optional)
 - `pricePerHour` (decimal, required)
-- `isAvailable` (boolean, default true)
 - `createdAt` (datetime, auto-generated)
 - `updatedAt` (datetime, auto-generated)
 - `isDeleted` (boolean, default false)
